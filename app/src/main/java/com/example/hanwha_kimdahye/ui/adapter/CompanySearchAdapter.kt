@@ -39,7 +39,7 @@ class CompanySearchAdapter :
 
     class SearchDiffCallBack : DiffUtil.ItemCallback<Docs>() {
         override fun areItemsTheSame(oldItem: Docs, newItem: Docs): Boolean {
-            return oldItem.title == newItem.title
+            return oldItem.uid == newItem.uid
         }
 
         override fun areContentsTheSame(oldItem: Docs, newItem: Docs): Boolean {

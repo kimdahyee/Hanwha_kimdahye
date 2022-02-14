@@ -26,7 +26,6 @@ class CompanySearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         init()
-        searchCompany()
     }
 
     private fun init() {
@@ -54,7 +53,9 @@ class CompanySearchActivity : AppCompatActivity() {
         hideKeyboard()
         job?.cancel()
         job = lifecycleScope.launch {
-            searchViewModel.requestNewsSearch(searchViewModel.searchQuery.value.toString())
+            var q = searchViewModel.searchQuery.value.toString()
+            if (q.isEmpty()) { q = "한화" }
+            searchViewModel.requestNewsSearch(q)
                 .collectLatest {
                     companySearchAdapter.submitData(it)
                 }

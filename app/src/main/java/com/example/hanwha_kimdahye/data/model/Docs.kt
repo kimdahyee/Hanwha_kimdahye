@@ -3,6 +3,7 @@ package com.example.hanwha_kimdahye.data.model
 import com.google.gson.annotations.SerializedName
 
 data class Docs(
+    val uid: Long,
     val category: String,
     val section: String,
     val publisher: String,

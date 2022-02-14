@@ -3,7 +3,6 @@ package com.example.hanwha_kimdahye.ui.view
 import android.content.Context
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -55,7 +54,9 @@ class NewsSearchActivity : AppCompatActivity() {
         hideKeyboard()
         job?.cancel()
         job = lifecycleScope.launch {
-            searchViewModel.requestNewsSearch(searchViewModel.searchQuery.value.toString())
+            var q = searchViewModel.searchQuery.value.toString()
+            if (q.isEmpty()) { q = "한화" }
+            searchViewModel.requestNewsSearch(q)
                 .collectLatest {
                     newsSearchAdapter.submitData(it)
                 }
