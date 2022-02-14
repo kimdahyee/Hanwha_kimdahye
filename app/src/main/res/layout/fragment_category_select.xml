@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.hanwha_kimdahye.ui.viewmodel.CategorySelectViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.view.CategorySelectFragment">
+
+        <TextView
+            android:id="@+id/tv_select_category_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="14dp"
+            android:text="카테고리 선택"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_news"
+            android:layout_width="wrap_content"
+            android:layout_height="68dp"
+            android:layout_marginTop="16dp"
+            android:onClick="@{() -> viewModel.onClickEvent(1)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_select_category_title" />
+
+        <TextView
+            android:id="@+id/tv_select_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="뉴스"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view_news"
+            app:layout_constraintStart_toStartOf="@+id/view_news"
+            app:layout_constraintTop_toTopOf="@+id/view_news" />
+
+        <View
+            android:id="@+id/view_underline1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="#EAE5E4"
+            app:layout_constraintBottom_toBottomOf="@+id/view_news"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/view_ir"
+            android:layout_width="wrap_content"
+            android:layout_height="68dp"
+            android:onClick="@{() -> viewModel.onClickEvent(2)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_news" />
+
+        <TextView
+            android:id="@+id/tv_select_ir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IR"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view_ir"
+            app:layout_constraintStart_toStartOf="@+id/tv_select_news"
+            app:layout_constraintTop_toBottomOf="@+id/view_news" />
+
+        <View
+            android:id="@+id/view_underline2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="#EAE5E4"
+            app:layout_constraintBottom_toBottomOf="@+id/view_ir"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/view_disclosure"
+            android:layout_width="wrap_content"
+            android:layout_height="68dp"
+            android:onClick="@{() -> viewModel.onClickEvent(3)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_ir" />
+
+        <TextView
+            android:id="@+id/tv_select_disclosure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="공시"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/view_disclosure"
+            app:layout_constraintStart_toStartOf="@+id/tv_select_ir"
+            app:layout_constraintTop_toBottomOf="@+id/view_ir" />
+
+        <View
+            android:id="@+id/view_underline3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="#EAE5E4"
+            app:layout_constraintBottom_toBottomOf="@+id/view_disclosure"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="18dp"
+            android:src="@mipmap/arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/view_news"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_news" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="18dp"
+            android:src="@mipmap/arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/view_ir"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_ir" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="18dp"
+            android:src="@mipmap/arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/view_disclosure"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_disclosure" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
