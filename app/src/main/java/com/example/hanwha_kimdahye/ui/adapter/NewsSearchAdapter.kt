@@ -1,6 +1,7 @@
 package com.example.hanwha_kimdahye.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
@@ -24,8 +25,11 @@ class NewsSearchAdapter :
         )
 
     override fun onBindViewHolder(holder: NewsSearchViewHolder, position: Int) {
-        getItem(position)?.let {
-            holder.bind(it)
+        getItem(position)?.let { docs ->
+            holder.bind(docs)
+            holder.itemView.setOnClickListener {
+                itemClickListener.onClick(it, position, docs)
+            }
         }
     }
 
@@ -35,6 +39,16 @@ class NewsSearchAdapter :
         fun bind(news: Docs) {
             binding.news = news
         }
+    }
+
+    private lateinit var itemClickListener: ItemClickListener
+
+    interface ItemClickListener {
+        fun onClick(view: View, position: Int, docs: Docs)
+    }
+
+    fun setItemClickListener(itemClickListener: ItemClickListener) {
+        this.itemClickListener = itemClickListener
     }
 
     class SearchDiffCallBack : DiffUtil.ItemCallback<Docs>() {

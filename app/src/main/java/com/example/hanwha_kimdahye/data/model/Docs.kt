@@ -7,10 +7,13 @@ data class Docs(
     val category: String,
     val section: String,
     val publisher: String,
+    val author: String,
     val title: String,
     val content: String,
+
     @SerializedName("image_urls")
     val imageUrls: List<String?>,
+
     @SerializedName("content_url")
     val contentUrl: String
 )
