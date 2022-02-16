@@ -38,6 +38,7 @@ class NewsSearchAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(news: Docs) {
             binding.news = news
+            binding.imgImageUrl.clipToOutline = true
         }
     }
 

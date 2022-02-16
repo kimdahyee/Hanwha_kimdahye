@@ -27,5 +27,6 @@ class DetailActivity : AppCompatActivity() {
         val intent = intent
         detailViewModel.handleIntent(intent)
         binding.viewModel = detailViewModel
+        binding.imgDetailImageUrl.clipToOutline = true
     }
 }

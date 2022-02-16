@@ -3,7 +3,7 @@ package com.example.hanwha_kimdahye.ui.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
@@ -49,6 +49,7 @@ class NewsSearchActivity : AppCompatActivity() {
         binding.rcvNewsSearch.adapter = newsSearchAdapter.withLoadStateFooter(
             footer = LoadStateAdapter { newsSearchAdapter.retry() }
         )
+        binding.etNewsSearch.text
     }
 
     private fun setViews() {
