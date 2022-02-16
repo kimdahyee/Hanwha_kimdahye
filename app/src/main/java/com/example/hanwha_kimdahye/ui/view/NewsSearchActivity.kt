@@ -3,6 +3,7 @@ package com.example.hanwha_kimdahye.ui.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
@@ -90,11 +91,17 @@ class NewsSearchActivity : AppCompatActivity() {
     }
 
     private fun onItemClick(news: Docs) {
+        var url = if (news.imageUrls.isEmpty()) {
+            null
+        } else {
+            news.imageUrls[0]
+        }
+
         val intent = Intent(this, DetailActivity::class.java)
         intent.putExtra("title", news.title)
         intent.putExtra("publisher", news.publisher)
         intent.putExtra("author", news.author)
-        intent.putExtra("imageUrl", news.imageUrls[0])
+        intent.putExtra("imageUrl", url)
         intent.putExtra("content", news.content)
         startActivity(intent)
     }
