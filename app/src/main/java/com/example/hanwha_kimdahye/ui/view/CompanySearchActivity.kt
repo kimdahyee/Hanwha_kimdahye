@@ -20,26 +20,27 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CompanySearchActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityCompanySearchBinding
     private val searchViewModel: SearchViewModel by viewModels()
     private val companySearchAdapter by lazy { CompanySearchAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         init()
+        setViews()
         searchCompany()
     }
 
     private fun init() {
-        val binding =
-            DataBindingUtil.setContentView<ActivityCompanySearchBinding>(
-                this,
-                R.layout.activity_company_search
-            )
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_company_search)
         binding.lifecycleOwner = this
         val intent = intent
         searchViewModel.handleIntent(intent)
         binding.viewModel = searchViewModel
         binding.rcvCompanySearch.adapter = companySearchAdapter
+    }
+
+    private fun setViews() {
         binding.btnCompanySearch.setOnClickListener {
             lifecycleScope.launch {
                 companySearchAdapter.submitData(PagingData.empty())

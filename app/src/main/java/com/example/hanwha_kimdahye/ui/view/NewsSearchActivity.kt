@@ -7,13 +7,16 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ActivityNewsSearchBinding
+import com.example.hanwha_kimdahye.ui.LoadStateAdapter
 import com.example.hanwha_kimdahye.ui.adapter.NewsSearchAdapter
 import com.example.hanwha_kimdahye.ui.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +27,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class NewsSearchActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityNewsSearchBinding
     private val searchViewModel: SearchViewModel by viewModels()
     private val newsSearchAdapter by lazy { NewsSearchAdapter() }
     private var newsList = mutableListOf<Docs>()
@@ -31,20 +35,26 @@ class NewsSearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         init()
+        setViews()
         searchNews()
     }
 
     private fun init() {
-        val binding =
-            DataBindingUtil.setContentView<ActivityNewsSearchBinding>(
-                this,
-                R.layout.activity_news_search
-            )
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_news_search)
         binding.lifecycleOwner = this
         val intent = intent
         searchViewModel.handleIntent(intent)
         binding.viewModel = searchViewModel
-        binding.rcvNewsSearch.adapter = newsSearchAdapter
+        binding.rcvNewsSearch.adapter = newsSearchAdapter.withLoadStateFooter(
+            footer = LoadStateAdapter { newsSearchAdapter.retry() }
+        )
+    }
+
+    private fun setViews() {
+        newsSearchAdapter.addLoadStateListener { loadState ->
+            binding.tvNothing.isVisible =
+                loadState.refresh is LoadState.NotLoading && newsSearchAdapter.itemCount == 0 && binding.etNewsSearch.text.isNotEmpty()
+        }
         binding.btnNewsSearch.setOnClickListener {
             lifecycleScope.launch {
                 newsSearchAdapter.submitData(PagingData.empty())
@@ -66,7 +76,9 @@ class NewsSearchActivity : AppCompatActivity() {
         job?.cancel()
         job = lifecycleScope.launch {
             var q = searchViewModel.searchQuery.value.toString()
-            if (q.isEmpty()) { q = "한화" }
+            if (q.isEmpty()) {
+                q = "한화"
+            }
             searchViewModel.requestNewsSearch(q)
                 .collectLatest { it ->
                     newsSearchAdapter.submitData(it)
