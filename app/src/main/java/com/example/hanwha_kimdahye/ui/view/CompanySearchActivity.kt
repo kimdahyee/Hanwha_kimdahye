@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.databinding.ActivityCompanySearchBinding
+import com.example.hanwha_kimdahye.ui.LoadStateAdapter
 import com.example.hanwha_kimdahye.ui.adapter.CompanySearchAdapter
 import com.example.hanwha_kimdahye.ui.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,10 +40,16 @@ class CompanySearchActivity : AppCompatActivity() {
         val intent = intent
         searchViewModel.handleIntent(intent)
         binding.viewModel = searchViewModel
-        binding.rcvCompanySearch.adapter = companySearchAdapter
+        binding.rcvCompanySearch.adapter = companySearchAdapter.withLoadStateFooter(
+            footer = LoadStateAdapter { companySearchAdapter.retry() }
+        )
     }
 
     private fun setViews() {
+        companySearchAdapter.addLoadStateListener { loadState ->
+            binding.tvNothing.isVisible =
+                loadState.refresh is LoadState.NotLoading && companySearchAdapter.itemCount == 0 && binding.etCompanySearch.text.isNotEmpty()
+        }
         binding.btnCompanySearch.setOnClickListener {
             lifecycleScope.launch {
                 companySearchAdapter.submitData(PagingData.empty())
