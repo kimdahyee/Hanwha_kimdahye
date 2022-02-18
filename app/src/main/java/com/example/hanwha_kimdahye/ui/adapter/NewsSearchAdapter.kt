@@ -88,6 +88,7 @@ class NewsSearchAdapter :
                 setBookmarkButtonStatus(false)
                 return
             }
+
             // 북마크가 안되어 있는 상황
             val url = if (news.imageUrls.isEmpty()) {
                 null

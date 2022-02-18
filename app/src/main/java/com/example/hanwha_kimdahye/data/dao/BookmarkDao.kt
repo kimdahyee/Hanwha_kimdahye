@@ -15,4 +15,7 @@ interface BookmarkDao {
 
     @Query("SELECT count(*) FROM Bookmark WHERE uid = :bookmarkUid")
     fun initCheck(bookmarkUid: Long): Int
+
+    @Query("SELECT * FROM Bookmark WHERE category = :category")
+    fun select(category: String)
 }
