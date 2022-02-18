@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.hanwha_kimdahye"
-        minSdk 24
+        minSdk 31
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -87,7 +87,6 @@ dependencies {
     // Room
     implementation("androidx.room:room-runtime:2.4.1")
     kapt "androidx.room:room-compiler:2.4.1"
-    testImplementation("androidx.room:room-testing:2.4.1")
 
     // Dagger Hilt
     implementation "com.google.dagger:hilt-android:2.38.1"

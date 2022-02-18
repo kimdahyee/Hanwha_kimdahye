@@ -3,7 +3,6 @@ package com.example.hanwha_kimdahye.ui.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
@@ -13,7 +12,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import androidx.paging.map
 import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ActivityNewsSearchBinding
@@ -31,7 +29,6 @@ class NewsSearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewsSearchBinding
     private val searchViewModel: SearchViewModel by viewModels()
     private val newsSearchAdapter by lazy { NewsSearchAdapter() }
-    private var newsList = mutableListOf<Docs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,15 +81,12 @@ class NewsSearchActivity : AppCompatActivity() {
             searchViewModel.requestNewsSearch(q)
                 .collectLatest { it ->
                     newsSearchAdapter.submitData(it)
-                    it.map { it2 ->
-                        newsList.add(it2)
-                    }
                 }
         }
     }
 
     private fun onItemClick(news: Docs) {
-        var url = if (news.imageUrls.isEmpty()) {
+        val url = if (news.imageUrls.isEmpty()) {
             null
         } else {
             news.imageUrls[0]

@@ -1,5 +1,6 @@
 package com.example.hanwha_kimdahye.ui.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,13 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hanwha_kimdahye.R
+import com.example.hanwha_kimdahye.data.database.BookmarkDatabase
+import com.example.hanwha_kimdahye.data.model.Bookmark
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ItemNewsBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NewsSearchAdapter :
     PagingDataAdapter<Docs, NewsSearchAdapter.NewsSearchViewHolder>(SearchDiffCallBack()) {
@@ -21,7 +27,8 @@ class NewsSearchAdapter :
                 R.layout.item_news,
                 parent,
                 false
-            )
+            ),
+            parent.context
         )
 
     override fun onBindViewHolder(holder: NewsSearchViewHolder, position: Int) {
@@ -33,15 +40,6 @@ class NewsSearchAdapter :
         }
     }
 
-    class NewsSearchViewHolder(
-        private val binding: ItemNewsBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(news: Docs) {
-            binding.news = news
-            binding.imgImageUrl.clipToOutline = true
-        }
-    }
-
     private lateinit var itemClickListener: ItemClickListener
 
     interface ItemClickListener {
@@ -50,6 +48,72 @@ class NewsSearchAdapter :
 
     fun setItemClickListener(itemClickListener: ItemClickListener) {
         this.itemClickListener = itemClickListener
+    }
+
+    class NewsSearchViewHolder(
+        private val binding: ItemNewsBinding,
+        private val context: Context
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(news: Docs) {
+            binding.news = news
+            binding.imgImageUrl.clipToOutline = true
+            // 각 item 별로 db에 들어가 있으면 바꿔줘야해
+            binding.btnNewsBookmark.setOnClickListener { setBookmarkButtonClickEvent(news) }
+        }
+
+        private fun bookmarkedPage() {
+            binding.btnNewsBookmark.isSelected = true
+        }
+
+        private fun notBookmarkedPage() {
+            binding.btnNewsBookmark.isSelected = false
+        }
+
+        private fun setBookmarkButtonClickEvent(news: Docs) {
+            if (getBookmarkButtonStatus()) {
+                // 북마크가 이미 되어있는 상황
+                val db = BookmarkDatabase.getInstance(context)
+                CoroutineScope(Dispatchers.IO).launch {
+                    db!!.bookmarkDao().delete(news.uid)
+                }
+                setBookmarkButtonStatus(false)
+                return
+            }
+            // 북마크가 안되어 있는 상황
+            val url = if (news.imageUrls.isEmpty()) {
+                null
+            } else {
+                news.imageUrls[0]
+            }
+
+            val bookmarkedNews = Bookmark(
+                news.uid,
+                news.category,
+                news.section,
+                news.publisher,
+                news.author,
+                news.title,
+                news.content,
+                url,
+                news.contentUrl
+            )
+
+            val db = BookmarkDatabase.getInstance(context)
+            CoroutineScope(Dispatchers.IO).launch {
+                db!!.bookmarkDao().insert(bookmarkedNews)
+            }
+            setBookmarkButtonStatus(true)
+        }
+
+        private fun setBookmarkButtonStatus(bookmarked: Boolean) {
+            if (bookmarked) {
+                bookmarkedPage()
+                return
+            }
+            notBookmarkedPage()
+        }
+
+        private fun getBookmarkButtonStatus(): Boolean = binding.btnNewsBookmark.isSelected
     }
 
     class SearchDiffCallBack : DiffUtil.ItemCallback<Docs>() {
