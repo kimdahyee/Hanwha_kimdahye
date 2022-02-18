@@ -57,7 +57,16 @@ class NewsSearchAdapter :
         fun bind(news: Docs) {
             binding.news = news
             binding.imgImageUrl.clipToOutline = true
-            // 각 item 별로 db에 들어가 있으면 바꿔줘야해
+            var count: Int
+            val db = BookmarkDatabase.getInstance(context)
+            CoroutineScope(Dispatchers.IO).launch {
+                count = db!!.bookmarkDao().initCheck(news.uid)
+                if (count == 1) {
+                    bookmarkedPage()
+                } else {
+                    notBookmarkedPage()
+                }
+            }
             binding.btnNewsBookmark.setOnClickListener { setBookmarkButtonClickEvent(news) }
         }
 
