@@ -17,7 +17,7 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
 
     var index = 0
-    val searchQuery = MutableLiveData("")
+    val searchQuery = MutableLiveData("hanwha")
 
     fun handleIntent(intent: Intent?) {
         if (intent == null) return
