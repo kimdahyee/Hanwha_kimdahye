@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.hanwha_kimdahye.databinding.FragmentFavoritesBinding
 import com.example.hanwha_kimdahye.ui.adapter.PagerFragmentStateAdapter
+import com.example.hanwha_kimdahye.ui.view.bookmark.BookmarkCompanyFragment
+import com.example.hanwha_kimdahye.ui.view.bookmark.BookmarkNewsFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 class FavoritesFragment : Fragment() {

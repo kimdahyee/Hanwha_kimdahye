@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.databinding.FragmentCategorySelectBinding
+import com.example.hanwha_kimdahye.ui.view.search.CompanySearchActivity
+import com.example.hanwha_kimdahye.ui.view.search.NewsSearchActivity
 import com.example.hanwha_kimdahye.ui.viewmodel.CategorySelectViewModel
 import com.example.hanwha_kimdahye.ui.viewmodel.eventObserve
 

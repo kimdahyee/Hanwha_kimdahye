@@ -15,13 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Hanwha_kimdahye">
         <activity
-            android:name=".ui.view.DetailActivity"
+            android:name=".ui.view.NewsDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.CompanySearchActivity"
+            android:name=".ui.view.search.CompanySearchActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.NewsSearchActivity"
+            android:name=".ui.view.search.NewsSearchActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

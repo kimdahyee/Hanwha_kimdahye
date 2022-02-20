@@ -1,4 +1,4 @@
-package com.example.hanwha_kimdahye.ui.view
+package com.example.hanwha_kimdahye.ui.view.search
 
 import android.content.Context
 import android.content.Intent
@@ -16,7 +16,8 @@ import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ActivityNewsSearchBinding
 import com.example.hanwha_kimdahye.ui.LoadStateAdapter
-import com.example.hanwha_kimdahye.ui.adapter.NewsSearchAdapter
+import com.example.hanwha_kimdahye.ui.adapter.search.NewsSearchAdapter
+import com.example.hanwha_kimdahye.ui.view.NewsDetailActivity
 import com.example.hanwha_kimdahye.ui.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -40,13 +41,12 @@ class NewsSearchActivity : AppCompatActivity() {
     private fun init() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_news_search)
         binding.lifecycleOwner = this
-        val intent = intent
-        searchViewModel.handleIntent(intent)
         binding.viewModel = searchViewModel
         binding.rcvNewsSearch.adapter = newsSearchAdapter.withLoadStateFooter(
             footer = LoadStateAdapter { newsSearchAdapter.retry() }
         )
-        binding.etNewsSearch.text
+        val intent = intent
+        searchViewModel.handleIntent(intent)
     }
 
     private fun setViews() {
@@ -54,6 +54,7 @@ class NewsSearchActivity : AppCompatActivity() {
             binding.tvNothing.isVisible =
                 loadState.refresh is LoadState.NotLoading && newsSearchAdapter.itemCount == 0 && binding.etNewsSearch.text.isNotEmpty()
         }
+
         binding.btnNewsSearch.setOnClickListener {
             lifecycleScope.launch {
                 newsSearchAdapter.submitData(PagingData.empty())
@@ -79,7 +80,7 @@ class NewsSearchActivity : AppCompatActivity() {
                 q = "한화"
             }
             searchViewModel.requestNewsSearch(q)
-                .collectLatest { it ->
+                .collectLatest {
                     newsSearchAdapter.submitData(it)
                 }
         }
@@ -92,7 +93,7 @@ class NewsSearchActivity : AppCompatActivity() {
             news.imageUrls[0]
         }
 
-        val intent = Intent(this, DetailActivity::class.java)
+        val intent = Intent(this, NewsDetailActivity::class.java)
         intent.putExtra("title", news.title)
         intent.putExtra("publisher", news.publisher)
         intent.putExtra("author", news.author)

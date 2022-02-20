@@ -5,10 +5,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.hanwha_kimdahye.R
-import com.example.hanwha_kimdahye.databinding.ActivityDetailBinding
+import com.example.hanwha_kimdahye.databinding.ActivityNewsDetailBinding
 import com.example.hanwha_kimdahye.ui.viewmodel.DetailViewModel
 
-class DetailActivity : AppCompatActivity() {
+class NewsDetailActivity : AppCompatActivity() {
 
     private val detailViewModel: DetailViewModel by viewModels()
 
@@ -19,14 +19,14 @@ class DetailActivity : AppCompatActivity() {
 
     private fun init() {
         val binding =
-            DataBindingUtil.setContentView<ActivityDetailBinding>(
+            DataBindingUtil.setContentView<ActivityNewsDetailBinding>(
                 this,
-                R.layout.activity_detail
+                R.layout.activity_news_detail
             )
         binding.lifecycleOwner = this
+        binding.viewModel = detailViewModel
         val intent = intent
         detailViewModel.handleIntent(intent)
-        binding.viewModel = detailViewModel
         binding.imgDetailImageUrl.clipToOutline = true
     }
 }

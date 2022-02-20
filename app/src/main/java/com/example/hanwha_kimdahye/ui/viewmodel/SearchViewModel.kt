@@ -17,7 +17,7 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
 
     var index = 0
-    val searchQuery = MutableLiveData("hanwha")
+    val searchQuery = MutableLiveData("한화")
 
     fun handleIntent(intent: Intent?) {
         if (intent == null) return
@@ -33,12 +33,5 @@ class SearchViewModel @Inject constructor(
         }
         return searchRepository.requestSearch(index, query)
             .cachedIn(viewModelScope)
-    }
-
-    private var job: Job? = null
-
-    override fun onCleared() {
-        super.onCleared()
-        job?.cancel()
     }
 }

@@ -1,7 +1,8 @@
-package com.example.hanwha_kimdahye.ui.adapter
+package com.example.hanwha_kimdahye.ui.adapter.search
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
@@ -11,89 +12,105 @@ import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.data.database.BookmarkDatabase
 import com.example.hanwha_kimdahye.data.model.Bookmark
 import com.example.hanwha_kimdahye.data.model.Docs
-import com.example.hanwha_kimdahye.databinding.ItemCompanyBinding
+import com.example.hanwha_kimdahye.databinding.ItemNewsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CompanySearchAdapter :
-    PagingDataAdapter<Docs, CompanySearchAdapter.CompanySearchViewHolder>(SearchDiffCallBack()) {
+class NewsSearchAdapter :
+    PagingDataAdapter<Docs, NewsSearchAdapter.NewsSearchViewHolder>(SearchDiffCallBack()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompanySearchViewHolder =
-        CompanySearchViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsSearchViewHolder =
+        NewsSearchViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.item_company,
+                R.layout.item_news,
                 parent,
                 false
             ),
             parent.context
         )
 
-    override fun onBindViewHolder(holder: CompanySearchViewHolder, position: Int) {
-        getItem(position)?.let {
-            holder.bind(it)
+    override fun onBindViewHolder(holder: NewsSearchViewHolder, position: Int) {
+        getItem(position)?.let { docs ->
+            holder.bind(docs)
+            holder.itemView.setOnClickListener {
+                itemClickListener.onClick(it, position, docs)
+            }
         }
     }
 
-    class CompanySearchViewHolder(
-        private val binding: ItemCompanyBinding,
+    private lateinit var itemClickListener: ItemClickListener
+
+    interface ItemClickListener {
+        fun onClick(view: View, position: Int, docs: Docs)
+    }
+
+    fun setItemClickListener(itemClickListener: ItemClickListener) {
+        this.itemClickListener = itemClickListener
+    }
+
+    class NewsSearchViewHolder(
+        private val binding: ItemNewsBinding,
         private val context: Context
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(company: Docs) {
-            binding.company = company
+        fun bind(news: Docs) {
+            binding.news = news
+            binding.imgImageUrl.clipToOutline = true
             var count: Int
             val db = BookmarkDatabase.getInstance(context)
             CoroutineScope(Dispatchers.IO).launch {
-                count = db!!.bookmarkDao().initCheck(company.uid)
+                count = db!!.bookmarkDao().initCheck(news.uid)
                 if (count == 1) {
                     bookmarkedPage()
                 } else {
                     notBookmarkedPage()
                 }
             }
-            binding.btnCompanyBookmark.setOnClickListener { setBookmarkButtonClickEvent(company) }
+            binding.btnNewsBookmark.setOnClickListener { setBookmarkButtonClickEvent(news) }
         }
 
         private fun bookmarkedPage() {
-            binding.btnCompanyBookmark.isSelected = true
+            binding.btnNewsBookmark.isSelected = true
         }
 
         private fun notBookmarkedPage() {
-            binding.btnCompanyBookmark.isSelected = false
+            binding.btnNewsBookmark.isSelected = false
         }
 
-        private fun setBookmarkButtonClickEvent(company: Docs) {
+        private fun setBookmarkButtonClickEvent(news: Docs) {
             if (getBookmarkButtonStatus()) {
+                // 북마크가 이미 되어있는 상황
                 val db = BookmarkDatabase.getInstance(context)
                 CoroutineScope(Dispatchers.IO).launch {
-                    db!!.bookmarkDao().delete(company.uid)
+                    db!!.bookmarkDao().delete(news.uid)
                 }
                 setBookmarkButtonStatus(false)
                 return
             }
 
-            val url = if (company.imageUrls.isEmpty()) {
+            // 북마크가 안되어 있는 상황
+            val url = if (news.imageUrls.isEmpty()) {
                 null
             } else {
-                company.imageUrls[0]
+                news.imageUrls[0]
             }
 
-            val bookmarkedCompany = Bookmark(
-                company.uid,
-                company.category,
-                company.section,
-                company.publisher,
-                company.author,
-                company.title,
-                company.content,
+            val bookmarkedNews = Bookmark(
+                news.uid,
+                news.category,
+                news.section,
+                news.publisher,
+                news.author,
+                news.title,
+                news.content,
                 url,
-                company.contentUrl
+                news.contentUrl
             )
 
             val db = BookmarkDatabase.getInstance(context)
             CoroutineScope(Dispatchers.IO).launch {
-                db!!.bookmarkDao().insert(bookmarkedCompany)
+                db!!.bookmarkDao().insert(bookmarkedNews)
             }
             setBookmarkButtonStatus(true)
         }
@@ -106,7 +123,7 @@ class CompanySearchAdapter :
             notBookmarkedPage()
         }
 
-        private fun getBookmarkButtonStatus(): Boolean = binding.btnCompanyBookmark.isSelected
+        private fun getBookmarkButtonStatus(): Boolean = binding.btnNewsBookmark.isSelected
     }
 
     class SearchDiffCallBack : DiffUtil.ItemCallback<Docs>() {

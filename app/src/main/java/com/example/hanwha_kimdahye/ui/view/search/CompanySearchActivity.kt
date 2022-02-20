@@ -1,4 +1,4 @@
-package com.example.hanwha_kimdahye.ui.view
+package com.example.hanwha_kimdahye.ui.view.search
 
 import android.content.Context
 import android.os.Bundle
@@ -13,7 +13,7 @@ import androidx.paging.PagingData
 import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.databinding.ActivityCompanySearchBinding
 import com.example.hanwha_kimdahye.ui.LoadStateAdapter
-import com.example.hanwha_kimdahye.ui.adapter.CompanySearchAdapter
+import com.example.hanwha_kimdahye.ui.adapter.search.CompanySearchAdapter
 import com.example.hanwha_kimdahye.ui.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -37,12 +37,12 @@ class CompanySearchActivity : AppCompatActivity() {
     private fun init() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_company_search)
         binding.lifecycleOwner = this
-        val intent = intent
-        searchViewModel.handleIntent(intent)
         binding.viewModel = searchViewModel
         binding.rcvCompanySearch.adapter = companySearchAdapter.withLoadStateFooter(
             footer = LoadStateAdapter { companySearchAdapter.retry() }
         )
+        val intent = intent
+        searchViewModel.handleIntent(intent)
     }
 
     private fun setViews() {
