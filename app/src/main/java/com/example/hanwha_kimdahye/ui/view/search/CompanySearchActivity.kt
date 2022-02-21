@@ -2,6 +2,7 @@ package com.example.hanwha_kimdahye.ui.view.search
 
 import android.content.Context
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -50,11 +51,24 @@ class CompanySearchActivity : AppCompatActivity() {
             binding.tvNothing.isVisible =
                 loadState.refresh is LoadState.NotLoading && companySearchAdapter.itemCount == 0 && binding.etCompanySearch.text.isNotEmpty()
         }
+
         binding.btnCompanySearch.setOnClickListener {
             lifecycleScope.launch {
                 companySearchAdapter.submitData(PagingData.empty())
                 searchCompany()
             }
+        }
+
+        binding.etCompanySearch.setOnEditorActionListener { _, action, _ ->
+            var handled = false
+            if (action == EditorInfo.IME_ACTION_DONE) {
+                lifecycleScope.launch {
+                    companySearchAdapter.submitData(PagingData.empty())
+                    searchCompany()
+                }
+                handled = true
+            }
+            handled
         }
     }
 

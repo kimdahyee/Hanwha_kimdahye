@@ -26,6 +26,7 @@
             android:text="@={viewModel.searchQuery}"
             android:inputType="text"
             android:lines="1"
+            android:imeOptions="actionDone"
             android:hint="@string/searchHint"
             android:autofillHints="@string/hanwha"
             app:layout_constraintEnd_toEndOf="parent"

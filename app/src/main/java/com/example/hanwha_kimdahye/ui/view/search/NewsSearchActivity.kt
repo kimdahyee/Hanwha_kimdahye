@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -60,6 +61,18 @@ class NewsSearchActivity : AppCompatActivity() {
                 newsSearchAdapter.submitData(PagingData.empty())
                 searchNews()
             }
+        }
+
+        binding.etNewsSearch.setOnEditorActionListener { _, action, _ ->
+            var handled = false
+            if (action == EditorInfo.IME_ACTION_DONE) {
+                lifecycleScope.launch {
+                    newsSearchAdapter.submitData(PagingData.empty())
+                    searchNews()
+                }
+                handled = true
+            }
+            handled
         }
 
         newsSearchAdapter.setItemClickListener(object : NewsSearchAdapter.ItemClickListener {
