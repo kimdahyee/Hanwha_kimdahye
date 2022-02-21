@@ -72,7 +72,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--
         <ProgressBar
             android:id="@+id/progressBar_news_search"
             style="?android:attr/progressBarStyle"
@@ -81,7 +80,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/rcv_news_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/rcv_news_search"
-            app:layout_constraintTop_toBottomOf="@+id/et_news_search" /> -->
+            app:layout_constraintTop_toBottomOf="@+id/et_news_search" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

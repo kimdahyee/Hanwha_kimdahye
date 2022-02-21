@@ -39,9 +39,7 @@ class CompanySearchActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_company_search)
         binding.lifecycleOwner = this
         binding.viewModel = searchViewModel
-        binding.rcvCompanySearch.adapter = companySearchAdapter.withLoadStateFooter(
-            footer = LoadStateAdapter { companySearchAdapter.retry() }
-        )
+        binding.rcvCompanySearch.adapter = companySearchAdapter
         val intent = intent
         searchViewModel.handleIntent(intent)
     }
@@ -50,6 +48,12 @@ class CompanySearchActivity : AppCompatActivity() {
         companySearchAdapter.addLoadStateListener { loadState ->
             binding.tvNothing.isVisible =
                 loadState.refresh is LoadState.NotLoading && companySearchAdapter.itemCount == 0 && binding.etCompanySearch.text.isNotEmpty()
+        }
+
+        lifecycleScope.launch {
+            companySearchAdapter.loadStateFlow.collectLatest {
+                binding.progressBarCompanySearch.isVisible = it.append is LoadState.Loading
+            }
         }
 
         binding.btnCompanySearch.setOnClickListener {

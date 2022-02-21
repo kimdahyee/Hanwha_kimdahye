@@ -5,8 +5,6 @@ import androidx.paging.PagingState
 import com.bumptech.glide.load.HttpException
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.data.remote.DeepSearchApiService
-import com.example.hanwha_kimdahye.data.remote.response.SearchResponse
-import retrofit2.Response
 import java.io.IOException
 
 const val STARTING_PAGE_INDEX = 1
@@ -22,17 +20,10 @@ class SearchPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Docs> {
         val position = params.key ?: STARTING_PAGE_INDEX
         return try {
-            lateinit var response: Response<SearchResponse>
-            when (index) {
-                1 ->
-                    response =
-                        service.requestNewsSearch(query, CLUSTERING_INDEX, COUNT, position)
-                2 ->
-                    response =
-                        service.requestIRSearch(query, CLUSTERING_INDEX, COUNT, position)
-                3 ->
-                    response =
-                        service.requestDisclosureSearch(query, CLUSTERING_INDEX, COUNT, position)
+            val response = when (index) {
+                1 -> service.requestNewsSearch(query, CLUSTERING_INDEX, COUNT, position)
+                2 -> service.requestIRSearch(query, CLUSTERING_INDEX, COUNT, position)
+                else -> service.requestDisclosureSearch(query, CLUSTERING_INDEX, COUNT, position)
             }
             val items = response.body()!!.data.docs
             LoadResult.Page(

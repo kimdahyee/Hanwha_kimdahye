@@ -3,6 +3,7 @@ package com.example.hanwha_kimdahye.ui.view.search
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -43,9 +44,7 @@ class NewsSearchActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_news_search)
         binding.lifecycleOwner = this
         binding.viewModel = searchViewModel
-        binding.rcvNewsSearch.adapter = newsSearchAdapter.withLoadStateFooter(
-            footer = LoadStateAdapter { newsSearchAdapter.retry() }
-        )
+        binding.rcvNewsSearch.adapter = newsSearchAdapter
         val intent = intent
         searchViewModel.handleIntent(intent)
     }
@@ -54,6 +53,12 @@ class NewsSearchActivity : AppCompatActivity() {
         newsSearchAdapter.addLoadStateListener { loadState ->
             binding.tvNothing.isVisible =
                 loadState.refresh is LoadState.NotLoading && newsSearchAdapter.itemCount == 0 && binding.etNewsSearch.text.isNotEmpty()
+        }
+
+        lifecycleScope.launch {
+            newsSearchAdapter.loadStateFlow.collectLatest {
+                binding.progressBarNewsSearch.isVisible = it.append is LoadState.Loading
+            }
         }
 
         binding.btnNewsSearch.setOnClickListener {
