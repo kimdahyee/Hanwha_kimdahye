@@ -1,12 +1,14 @@
 package com.example.hanwha_kimdahye.ui.adapter.bookmark
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hanwha_kimdahye.data.database.BookmarkDatabase
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ItemCompanyBinding
+import com.example.hanwha_kimdahye.ui.view.WebViewActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,6 +53,14 @@ class BookmarkCompanyAdapter : RecyclerView.Adapter<BookmarkCompanyAdapter.Bookm
                 }
             }
             binding.btnCompanyBookmark.setOnClickListener { setBookmarkButtonClickEvent(company) }
+            binding.tvContentUrl.setOnClickListener { showWebView(company) }
+        }
+
+        private fun showWebView(company: Docs) {
+            val intent = Intent(context, WebViewActivity::class.java)
+            intent.putExtra("section", company.section)
+            intent.putExtra("webUrl", company.contentUrl)
+            context.startActivity(intent)
         }
 
         private fun bookmarkedPage() {
