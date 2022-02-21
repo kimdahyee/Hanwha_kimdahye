@@ -1,5 +1,18 @@
 <resources>
     <string name="app_name">Hanwha_kimdahye</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="hanwha">한화</string>
+    <string name="searchHint">검색어를 입력하세요</string>
+    <string name="categorySelect">카테고리 선택</string>
+    <string name="search">검색</string>
+    <string name="favorites">즐겨찾기</string>
+
+    <string name="news">뉴스</string>
+    <string name="ir">IR</string>
+    <string name="disclosure">공시</string>
+
+    <string name="nothingLoad">Nothing Load</string>
+    <string name="timeout">Timeout</string>
+    <string name="retry">Retry</string>
 </resources>

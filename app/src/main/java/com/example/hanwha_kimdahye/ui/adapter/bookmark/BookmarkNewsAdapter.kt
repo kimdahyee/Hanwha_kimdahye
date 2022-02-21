@@ -4,11 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hanwha_kimdahye.data.database.BookmarkDatabase
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ItemNewsBinding
 import com.example.hanwha_kimdahye.ui.viewmodel.BookmarkViewModel
+import com.example.hanwha_kimdahye.util.BookmarkDiffUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -108,8 +110,10 @@ class BookmarkNewsAdapter(val viewModel: BookmarkViewModel) : RecyclerView.Adapt
     }
 
     fun setItem(news: List<Docs>) {
+        val diffUtilCallback = BookmarkDiffUtil(data, news)
+        val diffResult = DiffUtil.calculateDiff(diffUtilCallback)
         data.clear()
         data.addAll(news)
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 }

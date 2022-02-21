@@ -33,7 +33,7 @@
             android:layout_height="19dp"
             android:layout_marginTop="4dp"
             android:text="@{company.publisher}"
-            android:textColor="#DED9D8"
+            android:textColor="@color/grayDED9D8"
             app:layout_constraintStart_toStartOf="@+id/tv_company_title"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,7 +56,7 @@
             android:layout_marginTop="8dp"
             android:text="@{company.contentUrl}"
             android:textSize="14sp"
-            android:clickable="true"
+            android:textColor="@color/navy0B0B61"
             app:layout_constraintEnd_toEndOf="@+id/tv_company_title"
             app:layout_constraintStart_toStartOf="@+id/tv_company_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_company_content" />
@@ -66,9 +66,9 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:background="#EAE5E4"
+            android:background="@color/grayEAE5E4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_contentUrl" />

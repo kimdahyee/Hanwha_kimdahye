@@ -14,64 +14,80 @@
         android:layout_height="match_parent"
         tools:context=".ui.view.NewsDetailActivity">
 
-        <TextView
-            android:id="@+id/tv_detail_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="20dp"
-            android:text="@{viewModel.detail.title}"
-            android:textSize="26sp"
-            android:textStyle="bold"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_detail_author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.detail.author}"
-            android:textSize="12sp"
-            android:layout_marginEnd="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_detail_publisher"
-            tools:text="기자"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_detail_publisher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="@{viewModel.detail.publisher}"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_detail_author"
-            app:layout_constraintTop_toBottomOf="@+id/tv_detail_title"
-            tools:text="신문사" />
+                <TextView
+                    android:id="@+id/tv_detail_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="@{viewModel.detail.title}"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/img_detail_imageUrl"
-            android:layout_width="0dp"
-            android:layout_height="160dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/background_round"
-            app:imageUrl="@{viewModel.detail.imageUrl}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_detail_publisher" />
+                <TextView
+                    android:id="@+id/tv_detail_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:text="@{viewModel.detail.author}"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_detail_publisher" />
 
-        <TextView
-            android:id="@+id/tv_detail_content"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@{viewModel.detail.content}"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_detail_title"
-            app:layout_constraintStart_toStartOf="@+id/tv_detail_title"
-            app:layout_constraintTop_toBottomOf="@+id/img_detail_imageUrl" />
+                <TextView
+                    android:id="@+id/tv_detail_publisher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@{viewModel.detail.publisher}"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_detail_author"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_detail_title" />
+
+                <ImageView
+                    android:id="@+id/img_detail_imageUrl"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:imageUrl="@{viewModel.detail.imageUrl}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_detail_publisher" />
+
+                <TextView
+                    android:id="@+id/tv_detail_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:text="@{viewModel.detail.content}"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:lineSpacingExtra="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_detail_title"
+                    app:layout_constraintStart_toStartOf="@+id/tv_detail_title"
+                    app:layout_constraintTop_toBottomOf="@+id/img_detail_imageUrl" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

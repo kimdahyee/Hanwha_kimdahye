@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_search"
-        android:title="검색"
+        android:title="@string/search"
         android:icon="@android:drawable/ic_menu_search" />
     <item
         android:id="@+id/menu_favorites"
-        android:title="즐겨찾기"
+        android:title="@string/favorites"
         android:icon="@mipmap/bookmarks_icon_on" />
 </menu>
