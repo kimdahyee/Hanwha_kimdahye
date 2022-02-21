@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hanwha_kimdahye.data.database.BookmarkDatabase
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ItemNewsBinding
+import com.example.hanwha_kimdahye.ui.viewmodel.BookmarkViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,15 +18,15 @@ import kotlinx.coroutines.launch
  * on 02월 20일, 2020
  */
 
-class BookmarkNewsAdapter : RecyclerView.Adapter<BookmarkNewsAdapter.BookmarkNewsViewHolder>() {
+class BookmarkNewsAdapter(val viewModel: BookmarkViewModel) : RecyclerView.Adapter<BookmarkNewsAdapter.BookmarkNewsViewHolder>() {
 
     private val data: MutableList<Docs> = mutableListOf()
-    private lateinit var itemClickListener: BookmarkNewsAdapter.ItemClickListener
+    private lateinit var itemClickListener: ItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkNewsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemNewsBinding.inflate(layoutInflater, parent, false)
-        return BookmarkNewsViewHolder(parent.context, binding)
+        return BookmarkNewsViewHolder(parent.context, binding, viewModel)
     }
 
     override fun onBindViewHolder(holder: BookmarkNewsViewHolder, position: Int) {
@@ -49,7 +50,8 @@ class BookmarkNewsAdapter : RecyclerView.Adapter<BookmarkNewsAdapter.BookmarkNew
 
     class BookmarkNewsViewHolder(
         private val context: Context,
-        private val binding: ItemNewsBinding
+        private val binding: ItemNewsBinding,
+        private val bookmarkViewModel: BookmarkViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(news: Docs) {
             binding.news = news
@@ -83,6 +85,7 @@ class BookmarkNewsAdapter : RecyclerView.Adapter<BookmarkNewsAdapter.BookmarkNew
                     db!!.bookmarkDao().delete(news.uid)
                 }
                 setBookmarkButtonStatus(false)
+                bookmarkViewModel.getBookmarkNewsResult(context, "news")
                 return
             }
 

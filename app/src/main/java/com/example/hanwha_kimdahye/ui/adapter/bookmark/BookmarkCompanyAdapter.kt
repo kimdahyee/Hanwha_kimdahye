@@ -9,6 +9,7 @@ import com.example.hanwha_kimdahye.data.database.BookmarkDatabase
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ItemCompanyBinding
 import com.example.hanwha_kimdahye.ui.view.WebViewActivity
+import com.example.hanwha_kimdahye.ui.viewmodel.BookmarkViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,14 +19,14 @@ import kotlinx.coroutines.launch
  * on 02월 20일, 2020
  */
 
-class BookmarkCompanyAdapter : RecyclerView.Adapter<BookmarkCompanyAdapter.BookmarkCompanyViewHolder>() {
+class BookmarkCompanyAdapter(val viewModel: BookmarkViewModel) : RecyclerView.Adapter<BookmarkCompanyAdapter.BookmarkCompanyViewHolder>() {
 
     private val data: MutableList<Docs> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkCompanyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemCompanyBinding.inflate(layoutInflater, parent, false)
-        return BookmarkCompanyViewHolder(parent.context, binding)
+        return BookmarkCompanyViewHolder(parent.context, binding, viewModel)
     }
 
     override fun onBindViewHolder(holder: BookmarkCompanyViewHolder, position: Int) {
@@ -38,7 +39,8 @@ class BookmarkCompanyAdapter : RecyclerView.Adapter<BookmarkCompanyAdapter.Bookm
 
     class BookmarkCompanyViewHolder(
         private val context: Context,
-        private val binding: ItemCompanyBinding
+        private val binding: ItemCompanyBinding,
+        private val bookmarkViewModel: BookmarkViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(company: Docs) {
             binding.company = company
@@ -78,6 +80,7 @@ class BookmarkCompanyAdapter : RecyclerView.Adapter<BookmarkCompanyAdapter.Bookm
                     db!!.bookmarkDao().delete(company.uid)
                 }
                 setBookmarkButtonStatus(false)
+                bookmarkViewModel.getBookmarkNewsResult(context, "company")
                 return
             }
 

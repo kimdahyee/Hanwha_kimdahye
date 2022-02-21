@@ -15,7 +15,7 @@ import com.example.hanwha_kimdahye.ui.viewmodel.BookmarkViewModel
 class BookmarkCompanyFragment : Fragment() {
 
     private val bookmarkViewModel: BookmarkViewModel by viewModels()
-    private val bookmarkCompanyAdapter by lazy { BookmarkCompanyAdapter() }
+    private val bookmarkCompanyAdapter by lazy { BookmarkCompanyAdapter(bookmarkViewModel) }
     private lateinit var binding: FragmentBookmarkCompanyBinding
 
     override fun onCreateView(

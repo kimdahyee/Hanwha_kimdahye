@@ -12,14 +12,13 @@ import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.FragmentBookmarkNewsBinding
 import com.example.hanwha_kimdahye.ui.adapter.bookmark.BookmarkNewsAdapter
-import com.example.hanwha_kimdahye.ui.adapter.search.NewsSearchAdapter
 import com.example.hanwha_kimdahye.ui.view.NewsDetailActivity
 import com.example.hanwha_kimdahye.ui.viewmodel.BookmarkViewModel
 
 class BookmarkNewsFragment : Fragment() {
 
     private val bookmarkViewModel: BookmarkViewModel by viewModels()
-    private val bookmarkNewsAdapter by lazy { BookmarkNewsAdapter() }
+    private val bookmarkNewsAdapter by lazy { BookmarkNewsAdapter(bookmarkViewModel) }
     private lateinit var binding: FragmentBookmarkNewsBinding
 
     override fun onCreateView(
