@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.data.database.BookmarkDatabase
-import com.example.hanwha_kimdahye.data.model.Bookmark
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ItemCompanyBinding
 import kotlinx.coroutines.CoroutineScope
@@ -73,27 +72,9 @@ class CompanySearchAdapter :
                 return
             }
 
-            val url = if (company.imageUrls.isEmpty()) {
-                null
-            } else {
-                company.imageUrls[0]
-            }
-
-            val bookmarkedCompany = Bookmark(
-                company.uid,
-                company.category,
-                company.section,
-                company.publisher,
-                company.author,
-                company.title,
-                company.content,
-                url,
-                company.contentUrl
-            )
-
             val db = BookmarkDatabase.getInstance(context)
             CoroutineScope(Dispatchers.IO).launch {
-                db!!.bookmarkDao().insert(bookmarkedCompany)
+                db!!.bookmarkDao().insert(company)
             }
             setBookmarkButtonStatus(true)
         }

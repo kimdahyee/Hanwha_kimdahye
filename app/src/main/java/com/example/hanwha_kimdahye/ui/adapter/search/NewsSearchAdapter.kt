@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.data.database.BookmarkDatabase
-import com.example.hanwha_kimdahye.data.model.Bookmark
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ItemNewsBinding
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NewsSearchAdapter :
-    PagingDataAdapter<Docs, NewsSearchAdapter.NewsSearchViewHolder>(SearchDiffCallBack()) {
+    PagingDataAdapter<Docs, NewsSearchAdapter.NewsSearchViewHolder>(DiffUtilCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsSearchViewHolder =
         NewsSearchViewHolder(
@@ -89,28 +88,9 @@ class NewsSearchAdapter :
                 return
             }
 
-            // 북마크가 안되어 있는 상황
-            val url = if (news.imageUrls.isEmpty()) {
-                null
-            } else {
-                news.imageUrls[0]
-            }
-
-            val bookmarkedNews = Bookmark(
-                news.uid,
-                news.category,
-                news.section,
-                news.publisher,
-                news.author,
-                news.title,
-                news.content,
-                url,
-                news.contentUrl
-            )
-
             val db = BookmarkDatabase.getInstance(context)
             CoroutineScope(Dispatchers.IO).launch {
-                db!!.bookmarkDao().insert(bookmarkedNews)
+                db!!.bookmarkDao().insert(news)
             }
             setBookmarkButtonStatus(true)
         }
@@ -126,7 +106,7 @@ class NewsSearchAdapter :
         private fun getBookmarkButtonStatus(): Boolean = binding.btnNewsBookmark.isSelected
     }
 
-    class SearchDiffCallBack : DiffUtil.ItemCallback<Docs>() {
+    class DiffUtilCallBack : DiffUtil.ItemCallback<Docs>() {
         override fun areItemsTheSame(oldItem: Docs, newItem: Docs): Boolean {
             return oldItem.uid == newItem.uid
         }

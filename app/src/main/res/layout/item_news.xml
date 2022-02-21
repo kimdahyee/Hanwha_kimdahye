@@ -34,7 +34,6 @@
             android:layout_marginTop="8dp"
             app:imageUrl="@{news.imageUrls[0]}"
             android:scaleType="centerCrop"
-            android:clipToOutline="true"
             android:background="@drawable/background_round"
             app:layout_constraintStart_toStartOf="@+id/tv_news_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_news_title" />

@@ -1,8 +1,12 @@
 package com.example.hanwha_kimdahye.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class Docs(
+    @PrimaryKey
     val uid: Long,
     val category: String,
     val section: String,
