@@ -19,6 +19,8 @@ import kotlinx.coroutines.launch
 class NewsSearchAdapter :
     PagingDataAdapter<Docs, NewsSearchAdapter.NewsSearchViewHolder>(DiffUtilCallBack()) {
 
+    private lateinit var itemClickListener: ItemClickListener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsSearchViewHolder =
         NewsSearchViewHolder(
             DataBindingUtil.inflate(
@@ -38,8 +40,6 @@ class NewsSearchAdapter :
             }
         }
     }
-
-    private lateinit var itemClickListener: ItemClickListener
 
     interface ItemClickListener {
         fun onClick(view: View, position: Int, docs: Docs)

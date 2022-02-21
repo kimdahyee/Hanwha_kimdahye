@@ -1,10 +1,15 @@
 package com.example.hanwha_kimdahye.ui.adapter.bookmark
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hanwha_kimdahye.data.database.BookmarkDatabase
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ItemCompanyBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * Created By kimdahyee
@@ -18,7 +23,7 @@ class BookmarkCompanyAdapter : RecyclerView.Adapter<BookmarkCompanyAdapter.Bookm
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkCompanyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemCompanyBinding.inflate(layoutInflater, parent, false)
-        return BookmarkCompanyViewHolder(binding)
+        return BookmarkCompanyViewHolder(parent.context, binding)
     }
 
     override fun onBindViewHolder(holder: BookmarkCompanyViewHolder, position: Int) {
@@ -30,11 +35,58 @@ class BookmarkCompanyAdapter : RecyclerView.Adapter<BookmarkCompanyAdapter.Bookm
     }
 
     class BookmarkCompanyViewHolder(
+        private val context: Context,
         private val binding: ItemCompanyBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(company: Docs) {
             binding.company = company
+            var count: Int
+            val db = BookmarkDatabase.getInstance(context)
+            CoroutineScope(Dispatchers.IO).launch {
+                count = db!!.bookmarkDao().initCheck(company.uid)
+                if (count == 1) {
+                    bookmarkedPage()
+                } else {
+                    notBookmarkedPage()
+                }
+            }
+            binding.btnCompanyBookmark.setOnClickListener { setBookmarkButtonClickEvent(company) }
         }
+
+        private fun bookmarkedPage() {
+            binding.btnCompanyBookmark.isSelected = true
+        }
+
+        private fun notBookmarkedPage() {
+            binding.btnCompanyBookmark.isSelected = false
+        }
+
+        private fun setBookmarkButtonClickEvent(company: Docs) {
+            if (getBookmarkButtonStatus()) {
+                val db = BookmarkDatabase.getInstance(context)
+                CoroutineScope(Dispatchers.IO).launch {
+                    db!!.bookmarkDao().delete(company.uid)
+                }
+                setBookmarkButtonStatus(false)
+                return
+            }
+
+            val db = BookmarkDatabase.getInstance(context)
+            CoroutineScope(Dispatchers.IO).launch {
+                db!!.bookmarkDao().insert(company)
+            }
+            setBookmarkButtonStatus(true)
+        }
+
+        private fun setBookmarkButtonStatus(bookmarked: Boolean) {
+            if (bookmarked) {
+                bookmarkedPage()
+                return
+            }
+            notBookmarkedPage()
+        }
+
+        private fun getBookmarkButtonStatus(): Boolean = binding.btnCompanyBookmark.isSelected
     }
 
     fun setItem(company: List<Docs>) {
