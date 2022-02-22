@@ -3,7 +3,6 @@ package com.example.hanwha_kimdahye.ui.view.search
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -17,7 +16,6 @@ import androidx.paging.PagingData
 import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ActivityNewsSearchBinding
-import com.example.hanwha_kimdahye.ui.LoadStateAdapter
 import com.example.hanwha_kimdahye.ui.adapter.search.NewsSearchAdapter
 import com.example.hanwha_kimdahye.ui.view.NewsDetailActivity
 import com.example.hanwha_kimdahye.ui.viewmodel.SearchViewModel

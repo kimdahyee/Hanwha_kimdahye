@@ -13,7 +13,6 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.databinding.ActivityCompanySearchBinding
-import com.example.hanwha_kimdahye.ui.LoadStateAdapter
 import com.example.hanwha_kimdahye.ui.adapter.search.CompanySearchAdapter
 import com.example.hanwha_kimdahye.ui.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint

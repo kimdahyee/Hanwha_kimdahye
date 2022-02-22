@@ -1,7 +1,6 @@
 package com.example.hanwha_kimdahye.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import android.webkit.WebSettings
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
