@@ -45,30 +45,17 @@ class CompanySearchActivity : AppCompatActivity() {
 
     private fun setViews() {
         companySearchAdapter.addLoadStateListener { loadState ->
+            binding.progressBarCompanySearch.isVisible = loadState.append is LoadState.Loading
             binding.tvNothing.isVisible =
                 loadState.refresh is LoadState.NotLoading && companySearchAdapter.itemCount == 0 && binding.etCompanySearch.text.isNotEmpty()
         }
 
-        lifecycleScope.launch {
-            companySearchAdapter.loadStateFlow.collectLatest {
-                binding.progressBarCompanySearch.isVisible = it.append is LoadState.Loading
-            }
-        }
-
-        binding.btnCompanySearch.setOnClickListener {
-            lifecycleScope.launch {
-                companySearchAdapter.submitData(PagingData.empty())
-                searchCompany()
-            }
-        }
+        binding.btnCompanySearch.setOnClickListener { searchCompany() }
 
         binding.etCompanySearch.setOnEditorActionListener { _, action, _ ->
             var handled = false
             if (action == EditorInfo.IME_ACTION_DONE) {
-                lifecycleScope.launch {
-                    companySearchAdapter.submitData(PagingData.empty())
-                    searchCompany()
-                }
+                searchCompany()
                 handled = true
             }
             handled
@@ -82,7 +69,10 @@ class CompanySearchActivity : AppCompatActivity() {
         job?.cancel()
         job = lifecycleScope.launch {
             var q = searchViewModel.searchQuery.value.toString()
-            if (q.isEmpty()) { q = "한화" }
+            if (q.isEmpty()) {
+                q = "한화"
+            }
+            companySearchAdapter.submitData(PagingData.empty())
             searchViewModel.requestNewsSearch(q)
                 .collectLatest {
                     companySearchAdapter.submitData(it)

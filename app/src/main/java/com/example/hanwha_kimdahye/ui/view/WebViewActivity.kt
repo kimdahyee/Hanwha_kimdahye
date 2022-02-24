@@ -37,9 +37,9 @@ class WebViewActivity : AppCompatActivity() {
             applyWebViewSettings()
             if (section == "ir") {
                 loadUrl("http://docs.google.com/viewer?url=$webUrl")
-            } else {
-                webUrl?.let { loadUrl(it) }
+                return
             }
+            webUrl?.let { loadUrl(it) }
         }
     }
 

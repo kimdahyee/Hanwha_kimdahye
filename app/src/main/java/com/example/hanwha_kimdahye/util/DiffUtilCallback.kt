@@ -3,7 +3,7 @@ package com.example.hanwha_kimdahye.util
 import androidx.recyclerview.widget.DiffUtil
 import com.example.hanwha_kimdahye.data.model.Docs
 
-class BookmarkDiffUtil(
+class DiffUtilCallback(
     private val oldList: List<Docs>,
     private val newList: List<Docs>
 ) : DiffUtil.Callback() {

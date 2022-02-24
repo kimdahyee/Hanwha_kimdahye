@@ -10,7 +10,7 @@ import com.example.hanwha_kimdahye.data.database.BookmarkDatabase
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ItemNewsBinding
 import com.example.hanwha_kimdahye.ui.viewmodel.BookmarkViewModel
-import com.example.hanwha_kimdahye.util.BookmarkDiffUtil
+import com.example.hanwha_kimdahye.util.DiffUtilCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -110,7 +110,7 @@ class BookmarkNewsAdapter(val viewModel: BookmarkViewModel) : RecyclerView.Adapt
     }
 
     fun setItem(news: List<Docs>) {
-        val diffUtilCallback = BookmarkDiffUtil(data, news)
+        val diffUtilCallback = DiffUtilCallback(data, news)
         val diffResult = DiffUtil.calculateDiff(diffUtilCallback)
         data.clear()
         data.addAll(news)

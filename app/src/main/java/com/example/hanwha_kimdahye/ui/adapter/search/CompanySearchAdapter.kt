@@ -4,22 +4,21 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.data.database.BookmarkDatabase
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ItemCompanyBinding
 import com.example.hanwha_kimdahye.ui.view.WebViewActivity
+import com.example.hanwha_kimdahye.util.DiffUtilItemCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CompanySearchAdapter :
-    PagingDataAdapter<Docs, CompanySearchAdapter.CompanySearchViewHolder>(SearchDiffCallBack()) {
+    PagingDataAdapter<Docs, CompanySearchAdapter.CompanySearchViewHolder>(DiffUtilItemCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompanySearchViewHolder =
         CompanySearchViewHolder(
@@ -99,15 +98,5 @@ class CompanySearchAdapter :
         }
 
         private fun getBookmarkButtonStatus(): Boolean = binding.btnCompanyBookmark.isSelected
-    }
-
-    class SearchDiffCallBack : DiffUtil.ItemCallback<Docs>() {
-        override fun areItemsTheSame(oldItem: Docs, newItem: Docs): Boolean {
-            return oldItem.uid == newItem.uid
-        }
-
-        override fun areContentsTheSame(oldItem: Docs, newItem: Docs): Boolean {
-            return oldItem == newItem
-        }
     }
 }

@@ -49,30 +49,17 @@ class NewsSearchActivity : AppCompatActivity() {
 
     private fun setViews() {
         newsSearchAdapter.addLoadStateListener { loadState ->
+            binding.progressBarNewsSearch.isVisible = loadState.append is LoadState.Loading
             binding.tvNothing.isVisible =
                 loadState.refresh is LoadState.NotLoading && newsSearchAdapter.itemCount == 0 && binding.etNewsSearch.text.isNotEmpty()
         }
 
-        lifecycleScope.launch {
-            newsSearchAdapter.loadStateFlow.collectLatest {
-                binding.progressBarNewsSearch.isVisible = it.append is LoadState.Loading
-            }
-        }
-
-        binding.btnNewsSearch.setOnClickListener {
-            lifecycleScope.launch {
-                newsSearchAdapter.submitData(PagingData.empty())
-                searchNews()
-            }
-        }
+        binding.btnNewsSearch.setOnClickListener { searchNews() }
 
         binding.etNewsSearch.setOnEditorActionListener { _, action, _ ->
             var handled = false
             if (action == EditorInfo.IME_ACTION_DONE) {
-                lifecycleScope.launch {
-                    newsSearchAdapter.submitData(PagingData.empty())
-                    searchNews()
-                }
+                searchNews()
                 handled = true
             }
             handled
@@ -95,6 +82,7 @@ class NewsSearchActivity : AppCompatActivity() {
             if (q.isEmpty()) {
                 q = "한화"
             }
+            newsSearchAdapter.submitData(PagingData.empty())
             searchViewModel.requestNewsSearch(q)
                 .collectLatest {
                     newsSearchAdapter.submitData(it)

@@ -11,7 +11,7 @@ import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ItemCompanyBinding
 import com.example.hanwha_kimdahye.ui.view.WebViewActivity
 import com.example.hanwha_kimdahye.ui.viewmodel.BookmarkViewModel
-import com.example.hanwha_kimdahye.util.BookmarkDiffUtil
+import com.example.hanwha_kimdahye.util.DiffUtilCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -105,7 +105,7 @@ class BookmarkCompanyAdapter(val viewModel: BookmarkViewModel) : RecyclerView.Ad
     }
 
     fun setItem(company: List<Docs>) {
-        val diffUtilCallback = BookmarkDiffUtil(data, company)
+        val diffUtilCallback = DiffUtilCallback(data, company)
         val diffResult = DiffUtil.calculateDiff(diffUtilCallback)
         data.clear()
         data.addAll(company)

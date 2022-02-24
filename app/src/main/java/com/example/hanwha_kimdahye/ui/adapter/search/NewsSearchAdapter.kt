@@ -6,18 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hanwha_kimdahye.R
 import com.example.hanwha_kimdahye.data.database.BookmarkDatabase
 import com.example.hanwha_kimdahye.data.model.Docs
 import com.example.hanwha_kimdahye.databinding.ItemNewsBinding
+import com.example.hanwha_kimdahye.util.DiffUtilItemCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NewsSearchAdapter :
-    PagingDataAdapter<Docs, NewsSearchAdapter.NewsSearchViewHolder>(DiffUtilCallBack()) {
+    PagingDataAdapter<Docs, NewsSearchAdapter.NewsSearchViewHolder>(DiffUtilItemCallback()) {
 
     private lateinit var itemClickListener: ItemClickListener
 
@@ -56,6 +56,7 @@ class NewsSearchAdapter :
         fun bind(news: Docs) {
             binding.news = news
             binding.imgImageUrl.clipToOutline = true
+
             var count: Int
             val db = BookmarkDatabase.getInstance(context)
             CoroutineScope(Dispatchers.IO).launch {
@@ -66,6 +67,7 @@ class NewsSearchAdapter :
                     notBookmarkedPage()
                 }
             }
+
             binding.btnNewsBookmark.setOnClickListener { setBookmarkButtonClickEvent(news) }
         }
 
@@ -104,15 +106,5 @@ class NewsSearchAdapter :
         }
 
         private fun getBookmarkButtonStatus(): Boolean = binding.btnNewsBookmark.isSelected
-    }
-
-    class DiffUtilCallBack : DiffUtil.ItemCallback<Docs>() {
-        override fun areItemsTheSame(oldItem: Docs, newItem: Docs): Boolean {
-            return oldItem.uid == newItem.uid
-        }
-
-        override fun areContentsTheSame(oldItem: Docs, newItem: Docs): Boolean {
-            return oldItem == newItem
-        }
     }
 }
