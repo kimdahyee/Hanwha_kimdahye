@@ -11,9 +11,6 @@ const val STARTING_PAGE_INDEX = 1
 const val CLUSTERING_INDEX = 1
 const val COUNT = 10
 
-/*
-* 데이터 소스와 이 소스에서 데이터를 검색하는 방법 정리
-* */
 class SearchPagingSource(
     private val index: Int,
     private val query: String,
